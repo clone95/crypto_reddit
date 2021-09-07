@@ -8,6 +8,7 @@ from praw.models import MoreComments
 class RedditDownloader():
     def __init__(self, config):
             
+        today = date.today().strftime("%d-%m-%Y")
         self.subreddit = config['subreddit']
         self.limit = config['limit']
         self.root = config['root']
@@ -17,6 +18,9 @@ class RedditDownloader():
         self.user_agent=config['user_agent']
         self.username=config['username']
         self.password=config['password']
+        self.destination_folder = os.path.join(self.root, "raw", self.dataset_type)
+        self.destination_filename = self.destination_folder + "/" + self.subreddit+  f'{today}.txt'
+
 
     def create_comments_dataset(self):
 
@@ -28,12 +32,9 @@ class RedditDownloader():
         password=self.password,
         )
 
-        today = date.today().strftime("%d-%m-%Y")
-        destination_folder = os.path.join(self.root, "raw", self.dataset_type)
-        print(f"Downloading in {destination_folder}")
-        ensure_dir(destination_folder)
-
-        with open(destination_folder + "/" + self.subreddit+  f'{today}.txt', 'w+') as file:
+        print(f"Downloading in {self.destination_folder}")
+        ensure_dir(self.destination_folder)
+        with open(self.destination_filename, 'w+') as file:
             for submission in client.subreddit(self.subreddit).hot(limit=10):
                 if submission.title.startswith("Daily"):
 
@@ -44,3 +45,4 @@ class RedditDownloader():
                             file.write(str(top_level_comment.body) + "\n")
                         except:
                             continue
+        
