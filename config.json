@@ -2,5 +2,11 @@
     "subreddit": "CryptoCurrency",
     "limit": 10,
     "root": "data",
-    "dataset_type": "submissions" 
+    "dataset_type": "submissions",
+
+    "client_id": "7pzwfJp0nlisZ688tKjTNA",
+    "client_secret": "Kkal2oclz2d09fggBv1YvzBGfe7ugA",
+    "user_agent": "my user agent",
+    "username": "clone290595",
+    "password": "scottex95"
 }

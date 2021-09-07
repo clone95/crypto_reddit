@@ -10,15 +10,20 @@ class RedditDownloader():
         self.limit = config['limit']
         self.root = config['root']
         self.dataset_type = config['dataset_type']
+        self.client_id=config['client_id']
+        self.client_secret=config['client_secret']
+        self.user_agent=config['user_agent']
+        self.username=config['username']
+        self.password=config['password']
 
     def create_dataset(self):
 
         client = praw.Reddit(
-        client_id="7pzwfJp0nlisZ688tKjTNA",
-        client_secret="Kkal2oclz2d09fggBv1YvzBGfe7ugA",
-        user_agent="my user agent",
-        username="clone290595",
-        password="scottex95",
+        client_id=self.client_id,
+        client_secret=self.client_secret,
+        user_agent=self.user_agent,
+        username=self.username,
+        password=self.password,
         )
 
         with open(os.path.join(self.root, self.dataset_type, self.subreddit + '.txt'), 'w+') as file:
