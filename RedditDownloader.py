@@ -1,5 +1,7 @@
 import os
+from datetime import date
 import praw
+from Utils import ensure_dir
 from praw.models import MoreComments
 
 
@@ -16,7 +18,7 @@ class RedditDownloader():
         self.username=config['username']
         self.password=config['password']
 
-    def create_dataset(self):
+    def create_comments_dataset(self):
 
         client = praw.Reddit(
         client_id=self.client_id,
@@ -26,10 +28,15 @@ class RedditDownloader():
         password=self.password,
         )
 
-        with open(os.path.join(self.root, self.dataset_type, self.subreddit + '.txt'), 'w+') as file:
+        today = date.today().strftime("%d-%m-%Y")
+        destination_folder = os.path.join(self.root, "raw", self.dataset_type)
+        print(f"Downloading in {destination_folder}")
+        ensure_dir(destination_folder)
+
+        with open(destination_folder + "/" + self.subreddit+  f'{today}.txt', 'w+') as file:
             for submission in client.subreddit(self.subreddit).hot(limit=10):
                 if submission.title.startswith("Daily"):
-         
+
                     for top_level_comment in submission.comments:
                         if isinstance(top_level_comment, MoreComments):
                             continue
