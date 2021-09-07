@@ -1,12 +1,16 @@
 from re import sub
 import praw 
+import json
+
+config_file = open('config.json')
+config = json.load(config_file)
 
 reddit = praw.Reddit(
-        client_id="7pzwfJp0nlisZ688tKjTNA",
-        client_secret="Kkal2oclz2d09fggBv1YvzBGfe7ugA",
-        user_agent="my user agent",
-        username="clone290595",
-        password="scottex95",
+        client_id=config['client_id'],
+        client_secret=config['client_secret'],
+        user_agent=config['user_agent'],
+        username=config['username'],
+        password=config['password'],
         )
 
 for submission in reddit.subreddit("CryptoCurrency").hot(limit=3):
